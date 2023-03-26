@@ -1,44 +1,5 @@
 from random import randint
 
-def prRed(skk): return("\033[91m {}\033[00m" .format(skk))
- 
- 
-def prGreen(skk): return("\033[92m {}\033[00m" .format(skk))
- 
- 
-def prYellow(skk): return("\033[93m {}\033[00m" .format(skk))
- 
- 
-def prLightPurple(skk): return("\033[94m {}\033[00m" .format(skk))
- 
- 
-def prPurple(skk): return("\033[95m {}\033[00m" .format(skk))
- 
- 
-def prCyan(skk): return("\033[96m {}\033[00m" .format(skk))
- 
- 
-def prLightGray(skk): return("\033[97m {}\033[00m" .format(skk))
- 
- 
-def prBlack(skk): return("\033[98m {}\033[00m" .format(skk))
- 
- 
-prCyan("Hello World, ")
-prYellow("It's")
-prGreen("Geeks")
-prRed("For")
-prGreen("Geeks")
-
-
-
-
-
-
-
-
-
-
 def generatePlay():
     randomNum = randint(0, 3)
 
@@ -74,24 +35,23 @@ def determineRank(score):
     elif score < -35: rank = 'Trash'
     return rank
         
-
 def playGame():
     moves = ['rock', 'r', 'paper', 'p', 'scissors', 's', 'rank', 'score', 'create', 'switch', 'i quit', 'players']
     players = {}
-    user_name = input("What is your name? ")
+    user_name = input(prLPurpleNone("What is your name? "))
     players = choosePlayer(user_name, players)
     score, combo, w_streak, l_streak = 0, 0, 0, 0
 
-    print(f'\nWelcome Player {user_name}!')
+    print(f'\nWelcome Player {prPinkNone(user_name)}!')
     rank = determineRank(0)
-    print(f'Looks like your rank is: {rank}, with a score of {score}')
+    print(f'Looks like your rank is: {prOrangeNone(rank)}, with a score of {prBlueNone(score)}')
     
     while True:
         cpu_move = generatePlay()
-        player_move = input("\nThrow your move (Rock/Paper/Scissors or r/p/s), 'rank/score', 'create', 'switch', or type 'I quit': ").strip().lower()
+        player_move = input(prLPurpleNone(f"\nThrow your move [{prGreenNone('Rock')}{prLPurpleNone('/')}{prGreenNone('Paper')}{prLPurpleNone('/')}{prGreenNone('Scissors')}{prLPurpleNone(' or ')}{prGreenNone('r')}{prLPurpleNone('/')}{prGreenNone('p')}{prLPurpleNone('/')}{prGreenNone('s')}{prLPurpleNone('], ')}{prGreenNone('rank/score')}{prLPurpleNone(', ')}{prGreenNone('create')}{prLPurpleNone(', ')}{prGreenNone('switch')}{prLPurpleNone(', or ')}{prLPurpleNone('type')} {prRedNone('I quit')}{prLPurpleNone(':')} ")).strip().lower()
         
         if player_move not in moves:
-            print('Player input not recognized, please try again.')
+            prLCyan('Player input not recognized, please try again.')
         
         elif player_move == 'players':
             print(players)
@@ -99,94 +59,95 @@ def playGame():
         elif player_move == 'create':
             players = choosePlayer(user_name, players, score, combo, w_streak, l_streak)
             while True:
-                print('You chose to create a new player\n')
-                user_name = input("What is your new player name? ")
+                prGreen('You chose to create a new player\n')
+                user_name = input(prLPurpleNone("What is your new player name? "))
                 if user_name not in players.keys():
-                    print(f'\nWelcome Player {user_name}!')
-                    print(f'Looks like your rank is: Newbie, with a score of {0}')
+                    print(f'\nWelcome Player {prPinkNone(user_name)}!')
+                    print(f"Looks like your rank is: {prOrangeNone('Newbie')}, with a score of {prBlueNone(0)}")
                     players = choosePlayer(user_name, players)
                     score, combo, w_streak, l_streak = 0, 0, 0, 0
                     break
                 else:
-                    print(f'\n{user_name} was already found in the list of players.')
-                    overwrite = input(f"Would you like to overwrite and reset {user_name} (y/n)? ").strip().lower()
+                    print(f'\n{prPinkNone(user_name)} was already found in the list of players.')
+                    overwrite = input(f"Would you like to overwrite and reset {prPinkNone(user_name)} (y/n)? ").strip().lower()
                     if overwrite == 'y':
-                        print(f'\nWelcome Player {user_name}!')
-                        print(f'Looks like your rank is: Newbie, with a score of {0}')
+                        print(f'\nWelcome Player {prPinkNone(user_name)}!')
+                        print(f"Looks like your rank is: {prOrangeNone('Newbie')}, with a score of {prBlueNone(0)}")
                         players = choosePlayer(user_name, players)
                         score, combo, w_streak, l_streak = 0, 0, 0, 0
                         break
                     elif overwrite == 'n':
-                        print(f"You've chosen to not overwrite {user_name}. Please input another name to create.\n")
+                        print(f"You've chosen to not overwrite {prPinkNone(user_name)}. Please input another name to create.\n")
                     else:
-                        print('Input not recognized, please try again.')
+                        prLCyan('Input not recognized, please try again.')
 
         elif player_move == 'switch':
             while True:
-              if len(players) > 1:
-                  print('Switching to another player\n')
-              else:
-                  print('There are no other users to switch to.')
-                  break
-              players = choosePlayer(user_name, players, score, combo, w_streak, l_streak)
-              user_name = input("Player name you wish to switch to? ")
-              if user_name not in players.keys():
-                  print(f'Player {user_name} was not found as a player. Try again.\n')
-              else:
-                  print(f'Switching over to Player "{user_name}"!\n')
-                  players = choosePlayer(user_name, players, players[user_name]['score'], players[user_name]['combo'], players[user_name]['w_streak'], players[user_name]['l_streak'])
-                  print(f'Welcome back Player {user_name}!')
-                  rank = determineRank(players[user_name]['score'])
-                  print(f"\n{user_name}'s rank is: {rank}, with a score of {players[user_name]['score']}")
-                  print(f"You left the game with your combo at {players[user_name]['combo']}, with a win streak of {players[user_name]['w_streak']} round(s), and a loss streak of {abs(players[user_name]['l_streak'])} round(s)")
-                  break
+                if len(players) > 1:
+                    prGreen('Switching to another player\n')
+                else:
+                    prYellow('There are no other users to switch to.')
+                    break
+                players = choosePlayer(user_name, players, score, combo, w_streak, l_streak)
+                switch_name = input("Player name you wish to switch to? ")
+                if switch_name not in players.keys():
+                    print(f'Player {prPinkNone(switch_name)} was not found as a player. Try again.\n')
+                else:
+                    print(f'Switching over to Player "{prPinkNone(switch_name)}"!\n')
+                    user_name = switch_name
+                    players = choosePlayer(user_name, players, players[user_name]['score'], players[user_name]['combo'], players[user_name]['w_streak'], players[user_name]['l_streak'])
+                    print(f'Welcome back Player {prPinkNone(user_name)}!')
+                    rank = determineRank(players[user_name]['score'])
+                    print(f"\n{prPinkNone(user_name)}'s rank is: {prOrangeNone(rank)}, with a score of {prBlueNone(players[user_name]['score'])}")
+                    print(f"You left the game with your combo at {prCyanNone(players[user_name]['combo'])}, with a win streak of {prGreenNone(players[user_name]['w_streak'])} round(s), and a loss streak of {prRedNone(abs(players[user_name]['l_streak']))} round(s)")
+                    break
         
         elif player_move == 'rank' or player_move == 'score':
             rank = determineRank(players[user_name]['score'])
-            print(f"\n{user_name}'s rank is: {rank}, with a score of {players[user_name]['score']}")
+            print(f"\n{prPinkNone(user_name)}'s rank is: {prOrangeNone(rank)}, with a score of {prBlueNone(players[user_name]['score'])}")
         
         elif player_move == 'i quit':
-            print('Thank you for playing')
-            print('[ -- DAILY HIGHSCORES -- ]')
+            prYellow('\nThank you for playing\n')
+            prRedBg('[ -- DAILY HIGHSCORES -- ]')
             place = 1
             for player, item in sorted(players.items(), key=lambda x: x[1]['score'], reverse=True):
-                print(f"{place}. {player} ---------- Score: {item['score']}, Win streak: {item['w_streak']}, Loss streak: {abs(item['l_streak'])} Rank: {determineRank(item['score'])}")
+                print(f"{prCyanNone(place)}. {prPinkNone(player)} ---------- Score: {prBlueNone(item['score'])}, Win streak: {prGreenNone(item['w_streak'])}, Loss streak: {prRedNone(abs(item['l_streak']))}, Rank: {prOrangeNone(determineRank(item['score']))}")
                 place += 1
             break
         
         elif player_move == 'rock' or player_move == 'r':
-            print(f'The computer played: {cpu_move}')
+            prPurple(f'The computer played: {prPinkNone(cpu_move)}')
             if cpu_move == 'Rock':
-                print('Game Tied')
+                prYellow('Game Tied')
             elif cpu_move == "Paper":
-                if combo > 1: print('** COMBO BREAK **')
+                if combo > 1: prCyan('** COMBO BREAK **')
                 if combo > 0: combo = 0
                 else: combo -= 1
                 if combo < l_streak: l_streak = combo
                 score -= 5
                 players = choosePlayer(user_name, players, score+combo, combo, w_streak, l_streak)
-                print('You Lose')
+                prRed('You Lose')
             elif cpu_move == "Scissors":
                 if combo < 0: combo = 0
                 else: combo += 1
-                if combo > 1 : print(f'COMBO BONUS ==> +{combo}')
+                if combo > 1 : prCyan(f'COMBO BONUS ==> +{combo}')
                 if combo > w_streak: w_streak = combo
                 score += 5
                 players = choosePlayer(user_name, players, score+combo, combo, w_streak, l_streak)
-                print('You Win')
+                prGreen('You Win')
         
         elif player_move == 'paper' or player_move == 'p':
-            print(f'The computer played: {cpu_move}')
+            prPurple(f'The computer played: {prPinkNone(cpu_move)}')
             if cpu_move == 'Rock':
                 if combo < 0: combo = 0
                 else: combo += 1
-                if combo > 1 : print(f'COMBO BONUS ==> +{combo}')
+                if combo > 1 : prCyan(f'COMBO BONUS ==> +{combo}')
                 if combo > w_streak: w_streak = combo
                 score += 5
                 players = choosePlayer(user_name, players, score+combo, combo, w_streak, l_streak)
-                print('You Win')
+                prGreen('You Win')
             elif cpu_move == "Paper":
-                print('Game Tied')
+                prYellow('Game Tied')
             elif cpu_move == "Scissors":
                 if combo > 1: print('** COMBO BREAK **')
                 if combo > 0: combo = 0
@@ -194,27 +155,42 @@ def playGame():
                 if combo < l_streak: l_streak = combo
                 score -= 5
                 players = choosePlayer(user_name, players, score+combo, combo, w_streak, l_streak)
-                print('You Lose')
+                prRed('You Lose')
         
         elif player_move == 'scissors' or player_move == 's':
-            print(f'The computer played: {cpu_move}')
+            prPurple(f'The computer played: {prPinkNone(cpu_move)}')
             if cpu_move == 'Rock':
-                if combo > 1: print('** COMBO BREAK **')
+                if combo > 1: prCyan('** COMBO BREAK **')
                 if combo > 0: combo = 0
                 else: combo -= 1
                 if combo < l_streak: l_streak = combo
                 score -= 5
                 players = choosePlayer(user_name, players, score+combo, combo, w_streak, l_streak)
-                print('You Lose')
+                prRed('You Lose')
             elif cpu_move == "Paper":
                 if combo < 0: combo = 0
                 else: combo += 1
-                if combo > 1 : print(f'COMBO BONUS ==> +{combo}')
+                if combo > 1 : prCyan(f'COMBO BONUS ==> +{combo}')
                 if combo > w_streak: w_streak = combo
                 score += 5
                 players = choosePlayer(user_name, players, score+combo, combo, w_streak, l_streak)
-                print('You Win')
+                prGreen('You Win')
             elif cpu_move == "Scissors":
-                print('Game Tied')
+                prYellow('Game Tied')
+
+def prRed(skk): return print("\033[31m{}\033[00m".format(skk))
+def prRedNone(skk): return "\033[31m{}\033[00m".format(skk)
+def prGreen(skk): return print("\033[32m{}\033[00m".format(skk))
+def prGreenNone(skk): return "\033[32m{}\033[00m".format(skk)
+def prOrangeNone(skk): return "\033[33m{}\033[00m".format(skk)
+def prBlueNone(skk): return "\033[34m{}\033[00m".format(skk)
+def prPurple(skk): return print("\033[35m{}\033[00m".format(skk))
+def prCyan(skk): return print("\033[36m{}\033[00m".format(skk))
+def prCyanNone(skk): return "\033[36m{}\033[00m".format(skk)
+def prYellow(skk): return print("\033[93m{}\033[00m".format(skk))
+def prLPurpleNone(skk): return "\033[94m{}\033[00m".format(skk)
+def prPinkNone(skk): return "\033[95m{}\033[00m".format(skk)
+def prLCyan(skk): return print("\033[96m{}\033[00m".format(skk))
+def prRedBg(skk): return print("\033[41m{}\033[00m".format(skk))
 
 playGame()
