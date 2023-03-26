@@ -35,6 +35,38 @@ def determineRank(score):
     elif score < -35: rank = 'Trash'
     return rank
         
+def link():
+    if score == 0: return "Enter the link" 
+    elif score <= 5:
+        link = input("Enter the link:https://www.vectorstock.com/royalty-free-vector/bronze-medal-with-number-three-icon-cartoon-style-vector-14203473")
+    elif score <= 10:
+    elif score <= 15:
+    elif score <= 20:
+    elif score <= 25:
+    elif score <= 30:
+    elif score <= 35:
+    elif score > 35:
+        rank = 'G O A T'
+    
+    elif score >= -5:
+        rank = 'Egg'
+    elif -5 > score >= -10:
+        rank = 'Unlucky'
+    elif -10 > score >= -15:
+        rank = 'Loser'
+    elif -15 > score >= -20:
+        rank = 'Weenie'
+    elif -20 > score >= -25:
+        rank = 'Super Weenie'
+    elif -25 > score >= -30:
+        rank = 'Mega Weenie Loser'
+    elif -30 > score >= -35:
+        rank = 'Hardstuck Loser'
+    elif score < -35:
+        rank = 'Trash'
+    return rank
+
+
 def playGame():
     moves = ['rock', 'r', 'paper', 'p', 'scissors', 's', 'rank', 'score', 'create', 'switch', 'i quit', 'players']
     players = {}
